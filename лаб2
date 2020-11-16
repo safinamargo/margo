@@ -1,0 +1,168 @@
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using static System.Math;
+
+namespace Figures
+{
+    class Programm
+    {
+        static void Main(string[] args)
+        {
+            Console.WriteLine("1.Прямоугольник");
+            Console.WriteLine("2.Квадрат");
+            Console.WriteLine("3.Круг");
+            Console.WriteLine("0.Выйти");
+            int k;
+
+            do
+            {
+                k = System.Convert.ToInt32(Console.ReadLine());
+                if (k == 1)
+                {
+                    Console.WriteLine("Вводим высоту и ширину прямоугольника");
+                    double h = System.Convert.ToDouble(Console.ReadLine());
+                    double w = System.Convert.ToDouble(Console.ReadLine());
+                    Rectange rect = new Rectange(h, w);
+                    rect.Print();
+                }
+                else if (k == 2)
+                {
+                    Console.WriteLine("Вводим сторону квадрата");
+                    double h = System.Convert.ToDouble(Console.ReadLine());
+                    Square square = new Square(h);
+                    square.Print();
+                }
+                else if (k == 3)
+                {
+                    Console.WriteLine("Вводим радиус круга");
+                    double h = System.Convert.ToDouble(Console.ReadLine());
+                    Circle circle = new Circle(h);
+                    circle.Print();
+                }
+            } while (k != 0);
+        }
+    }
+    abstract class Figure
+    {
+        public string Type
+        {
+            // метод чтения
+            get
+            {
+                return this._Type;
+            }
+            // метод записи
+            protected set
+            {
+                this._Type = value;
+            }
+        }
+        string _Type;
+        public abstract double Area();
+        public override string ToString()
+        {
+            return this.Type + " площадью " + this.Area().ToString();
+        }
+    }
+    class Rectange : Figure, IPrint
+    {
+        /// <summary>
+        /// Высота
+        /// </summary>
+        private double height;
+        public double Height
+        {
+            private set
+            {
+                height = value;
+            }
+            get
+            {
+                return height;
+            }
+        }
+
+        /// <summary>
+        /// Ширина
+        /// </summary>
+        private double width;
+        public double Width
+        {
+            private set
+            {
+                width = value;
+            }
+            get
+            {
+                return width;
+            }
+        }
+        /// <summary>
+        /// Основной конструктор
+        /// </summary>
+        /// <param name="h"> Высота </param>
+        /// <param name="w"> Ширина </param>
+        public Rectange(double h, double w)
+        {
+            this.height = h;
+            this.width = w;
+            this.Type = "Прямоугольник";
+        }
+        /// <summary>
+        /// вычисление площади
+        /// </summary>
+        public override double Area()
+        {
+            double Result = this.width * this.height;
+            return Result;
+        }
+
+        public void Print()
+        {
+            Console.WriteLine(this.ToString());
+        }
+    }
+    class Square : Rectange, IPrint
+    {
+        public Square(double size) : base(size, size)
+        {
+            this.Type = "Квадрат";
+        }
+    }
+    class Circle : Figure, IPrint
+    {
+        private double radius;
+        public double Radius
+        {
+            set
+            {
+                radius = value;
+            }
+            get
+            {
+                return radius;
+            }
+        }
+        public Circle(double r)
+        {
+            this.radius = r;
+            this.Type = "Круг";
+        }
+        public override double Area()
+        {
+            double Result = Math.PI * this.radius * this.radius;
+            return Result;
+        }
+        public void Print()
+        {
+            Console.WriteLine(this.ToString());
+        }
+    }
+    interface IPrint
+    {
+        void Print();
+    }
+}
